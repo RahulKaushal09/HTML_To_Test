@@ -1,4 +1,8 @@
+import datetime
 from distutils import util
+import json
+import logging
+import threading
 import time
 from flask import Flask, request, jsonify
 import requests
@@ -9,14 +13,18 @@ import cv2
 import numpy as np
 from flask_cors import CORS
 import timeout_decorator
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 # from docxToHtml import docxToHtml
 from mjxToImage import preprocess_html_code
 app = Flask(__name__)
 # Enable CORS for all routes
 CORS(app)
+logging.basicConfig(filename='htmlToTest.log', level=logging.DEBUG)
+
 # Replace these with your Mathpix APP_ID and APP_KEY
-Public_IP = "http://52.139.218.113/images"
+Public_IP = "https://fc.edurev.in/images"
 # MATHPIX_APP_ID = 'er_f402cd_ca202a'
 # MATHPIX_APP_KEY = 'aed4a0da1c0d02e4e7a67cd5a2510ec6e723f426596da04eacf46db72f4dfb64'
 
@@ -138,13 +146,18 @@ def remove_watermark(location_of_images,image_path):
 # @timeout_decorator.timeout(3600) 
 def upload_pdf():
     if 'file' not in request.files:
+        print("No file part")
         return jsonify({"error": "No file part"}), 400
     # Log the form data
     app.logger.info(request.form)
 
     # Access the form data
-    quizId = request.form.get('quizId')
-    quizGuid = request.form.get('quizGuid')
+    headers = request.headers
+    quizId = headers.get('quizId')
+    quizGuid = headers.get('quizGuid')
+    print(quizId)
+    print(quizGuid)
+    # quizGuid = request.form.get('quizGuid')
 
     # Log the individual form fields
     # app.logger.info(f"quizId: {quizId}")
@@ -156,6 +169,8 @@ def upload_pdf():
     # role = request.form.get('role')
     # prompt = request.form.get('prompt')
     if file.filename == '':
+        print("No selected part")
+
         return jsonify({"error": "No selected file"}), 400
 
     # Save the file locally
@@ -235,7 +250,7 @@ def upload_pdf():
     #     f.write(docx_response.content)
     # result = preprocess_html_code(docx_file_path,role,prompt)
     result = preprocess_html_code(docx_file_path,quizId,quizGuid)
-    # print(result)
+    print(result)
     return jsonify({"message": "PDF processed successfully", "result": result}), 200
     # print("docx_file_path"+ docx_file_path)
     # docxToHtml(docx_file_path)
@@ -304,58 +319,141 @@ def removeWatermark():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-def get_unique_questions(questions,percentage):
+# def get_unique_questions(questions,percentage):
+#     try:
+#         questions_with_percentage = []
+#         similar_question_ids = []
+#         index1 =0
+#         for index1 in range(len(questions)):
+#             index2 = index1 + 1
+#             while index2 < len(questions):
+#                 question2_id = questions[index2]['id']
+#                 statement2 = questions[index2]['statement']
+#                 question1_id = questions[index1]['id']
+#                 statement1 = questions[index1]['statement']
+#                 if statement1 == "" or statement2 == "":
+#                     continue
+
+#                 embedding1 = model.encode(statement1, convert_to_tensor=True)
+#                 embedding2 = model.encode(statement2, convert_to_tensor=True)
+
+#                 # Calculate cosine similarity
+#                 cosine_sim = util.pytorch_cos_sim(embedding1, embedding2).item()
+
+#                 # Get the similarity percentage
+#                 similarity_percentage = cosine_sim * 100
+#                 questions_with_percentage.append({'question_id1': question1_id, 'question_id2': question2_id, 'similarity_percentage': similarity_percentage})
+                
+#                 index2+=1
+#         for index1 in range(len(questions_with_percentage)):
+#             question1_id = questions_with_percentage[index1]['question_id1']
+#             question2_id = questions_with_percentage[index1]['question_id2']
+#             similarity_percentage = questions_with_percentage[index1]['similarity_percentage']
+#             if percentage is not None:
+#                 if similarity_percentage > percentage:
+#                     similar_question_ids.append({'question_id1': question1_id, 'question_id2': question2_id, 'similarity_percentage': similarity_percentage})
+#                     # questions.remove(questions[index2])
+#                     # questions.remove(questions[index1])
+#             else:
+#                 if similarity_percentage > 90:
+#                     similar_question_ids.append({'question_id1': question1_id, 'question_id2': question2_id, 'similarity_percentage': similarity_percentage})
+#                     # questions.remove(questions[index2])
+#                     # questions.remove(questions[index1])
+#         return questions , similar_question_ids
+#     except Exception as e:
+#         print(str(e))
+
+#         return jsonify({'error': str(e)}), 500
+
+# Process questions function
+def process_questions(index1, questions, questions_with_percentage, lock,startingtime):
+    logging.info(f'Starting processing from index START ->{index1} to end')
+    # for index1 in range(start_index, len(questions)):
+    for index2 in range(index1 + 1, len(questions)):
+        logging.info("index1,index2 : "+str((index1,index2)))
+        question2_id = questions[index2]['id']
+        statement2 = questions[index2]['statement']
+        question1_id = questions[index1]['id']
+        statement1 = questions[index1]['statement']
+        if statement1 == "" or statement2 == "":
+            continue
+
+        embedding1 = model.encode(statement1, convert_to_tensor=True)
+        embedding2 = model.encode(statement2, convert_to_tensor=True)
+
+        # Calculate cosine similarity
+        cosine_sim = util.pytorch_cos_sim(embedding1, embedding2).item()
+
+        # Get the similarity percentage
+        similarity_percentage = cosine_sim * 100
+        with lock:
+            questions_with_percentage.append({
+                'question_id1': question1_id,
+                'question_id2': question2_id,
+                'similarity_percentage': similarity_percentage
+            })
+    logging.info(f'Completed processing from index ENDDING -> {index1} to end')
+    logging.info(f'time to process {index1} to end -> {datetime.datetime.now() - startingtime}')
+
+# Worker function for threads
+def worker(questions, questions_with_percentage, lock, current_start_index,startingtime):
+    while True:
+        with lock:
+            logging.info(f'Current start index: {current_start_index[0]}')
+            if current_start_index[0] >= len(questions):
+                return  # Exit the thread if all questions are processed
+            index = current_start_index[0]
+            current_start_index[0] += 1
+
+        process_questions(index, questions, questions_with_percentage, lock,startingtime)
+
+# Main function to get unique questions
+def get_unique_questions(questions, percentage):
     try:
+        import datetime
+        startingtime = datetime.datetime.now()
+        logging.info(f'Starting time: {startingtime}')
         questions_with_percentage = []
         similar_question_ids = []
-        index1 =0
-        for index1 in range(len(questions)):
-            index2 = index1 + 1
-            while index2 < len(questions):
-                question2_id = questions[index2]['id']
-                statement2 = questions[index2]['statement']
-                question1_id = questions[index1]['id']
-                statement1 = questions[index1]['statement']
-                if statement1 == "" or statement2 == "":
-                    continue
+        # num_threads = len(questions) - 1  # Number of threads
+        num_threads = 5 # Number of threads
+        current_start_index = [0]  # Use list to make it mutable within threads
+        lock = threading.Lock()  # Lock to manage access to shared variables
 
-                embedding1 = model.encode(statement1, convert_to_tensor=True)
-                embedding2 = model.encode(statement2, convert_to_tensor=True)
+        # Use ThreadPoolExecutor to manage threads
+        with ThreadPoolExecutor(max_workers=num_threads) as executor:
+            futures = [executor.submit(worker, questions, questions_with_percentage, lock, current_start_index,startingtime) for _ in range(num_threads)]
+            for future in as_completed(futures):
+                logging.info(future)
+                pass  # All threads will keep running until all questions are processed
 
-                # Calculate cosine similarity
-                cosine_sim = util.pytorch_cos_sim(embedding1, embedding2).item()
-
-                # Get the similarity percentage
-                similarity_percentage = cosine_sim * 100
-                questions_with_percentage.append({'question_id1': question1_id, 'question_id2': question2_id, 'similarity_percentage': similarity_percentage})
-                
-                index2+=1
-        for index1 in range(len(questions_with_percentage)):
-            question1_id = questions_with_percentage[index1]['question_id1']
-            question2_id = questions_with_percentage[index1]['question_id2']
-            similarity_percentage = questions_with_percentage[index1]['similarity_percentage']
+        for item in questions_with_percentage:
+            question1_id = item['question_id1']
+            question2_id = item['question_id2']
+            similarity_percentage = item['similarity_percentage']
             if percentage is not None:
                 if similarity_percentage > percentage:
                     similar_question_ids.append({'question_id1': question1_id, 'question_id2': question2_id, 'similarity_percentage': similarity_percentage})
-                    # questions.remove(questions[index2])
-                    # questions.remove(questions[index1])
             else:
                 if similarity_percentage > 90:
                     similar_question_ids.append({'question_id1': question1_id, 'question_id2': question2_id, 'similarity_percentage': similarity_percentage})
-                    # questions.remove(questions[index2])
-                    # questions.remove(questions[index1])
-        return questions , similar_question_ids
+
+        with open("/home/er-ubuntu-1/HTMLToTest/similar_question_ids.json", "w") as f:
+            json.dump(similar_question_ids, f, indent=4)
+        logging.info(f'Completed processing. Time taken: {datetime.datetime.now() - startingtime}')
+        return questions, similar_question_ids
+
     except Exception as e:
-        print(str(e))
-
-        return jsonify({'error': str(e)}), 500
-
+        logging.error(f'Error: {str(e)}')
+        return {'error': str(e)}, 500 
 @app.route('/findSimilarQuestions', methods=['POST'])
 def getUniqueQuestionsOnly():
     print(request.json)
     # questions
     questions = request.json.get('questions')
     percentage = request.json.get('checkperc')
+    fileguid = request.json.get('fileguid')
+    api_token ="45b22444-3023-42a0-9eb4-ac94c22b15c2"
     if not questions:
         return jsonify({'error': 'No questions provided'}), 400
 
@@ -368,7 +466,16 @@ def getUniqueQuestionsOnly():
         #     f.write(str(unique_questions))
         # with open("/home/er-ubuntu-1/pdfToTest/similar_question_ids.json", "w") as f:
         #     f.write(str(similar_question_ids))
-        return jsonify({'unique_questions': unique_questions,'similar_question_ids':similar_question_ids}), 200
+        api_to_send_duplicate_question = "https://panelapi.edurev.in/Tools/SaveDuplicateQuesResult"
+        logging.info(f'API to send duplicate questions: {api_to_send_duplicate_question}')
+        with open("/home/er-ubuntu-1/HTMLToTest/response.json", "w") as f:
+            json.dump({"fileguid": fileguid,'unique_questions': unique_questions, "similar_question_ids": similar_question_ids, "api_token":api_token}, f, indent=4)
+        logging.info("sending payload to api is : "+str({"fileguid": fileguid,'unique_questions': unique_questions, "similar_question_ids": similar_question_ids, "api_token":api_token}))
+        response = requests.post(api_to_send_duplicate_question, json={"fileguid": fileguid,'unique_questions': unique_questions, "similar_question_ids": similar_question_ids, "api_token":api_token})
+        if response.status_code != 200:
+            return jsonify({'error': 'Failed to send data to API'}), 500
+        else:
+            return jsonify({'unique_questions': unique_questions,'similar_question_ids':similar_question_ids}), 200
     except Exception as e:
         print(str(e))
         return jsonify({'error': str(e)}), 500

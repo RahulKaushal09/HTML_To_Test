@@ -9,7 +9,7 @@ def read_html(file_path):
         html_content = file.read()
     return html_content
 location_of_images = "/var/www/html/images/"
-PUBLIC_IP = "http://52.139.218.113/images/"
+PUBLIC_IP = "https://fc.edurev.in/images/"
 import matplotlib.pyplot as plt
 from bs4 import BeautifulSoup
 

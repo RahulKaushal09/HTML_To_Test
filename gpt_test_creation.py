@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import openai 
+# import openai 
 import datetime
 import json
 import re
@@ -8,8 +8,13 @@ import os
 
 import requests
 load_dotenv()
+from openai import OpenAI
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.getenv("OPENAI_API_KEY"),
+)
+# openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 
@@ -18,7 +23,10 @@ def read_html(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
     return html_content
-
+def clean_text(text, patterns):
+    for pattern in patterns:
+        text = re.sub(pattern, "", text).strip()
+    return text
 # def format_questions(filepath,content,role,prompt_):
 def format_questions(filepath,content,quizId,quizGuid):
     try:
@@ -84,7 +92,7 @@ def format_questions(filepath,content,quizId,quizGuid):
             formatted_date = current_date.strftime("%Y-%m-%d")
             # Adjusted code for the new API
             try:
-                response_html = openai.ChatCompletion.create(
+                response_html = client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
                         {
@@ -146,7 +154,7 @@ def format_questions(filepath,content,quizId,quizGuid):
 
                 
                     # print(data_res_html)
-                response = openai.ChatCompletion.create(
+                response = client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
                         {
@@ -199,51 +207,71 @@ def format_questions(filepath,content,quizId,quizGuid):
                             continue
                     
                     api_to_send_questions = "https://p1.edurev.in/Tools/PDF_TO_QuizQuestions_Automation"
-
-                    if  'questions' in data_res :
+                    if 'questions' in data_res:
                         for question in data_res["questions"]:
+                            question_patterns = [r"Question \d+:", r"Question:"]
+                            answer_patterns = [r"ANSWER", r"ANS", r"ANSWEROPTION", r"Answer:"]
+                            solution_patterns = [r"Solution:"]
+                            
+                            question["question"] = clean_text(question["question"], question_patterns)
+                            question["answer"] = clean_text(question["answer"], answer_patterns)
+                            question["solution"] = clean_text(question["solution"], solution_patterns)
+                            
+                            option_patterns = [r"Option [A-Z]:", r"^\(\d+\)|^\([A-Z]\)", r"\([a-z]\):"]
                             for i, option in enumerate(question["options"]):
-                                # Find the option number using regex
-                                match = re.search(r"Option ([A-Z0-9]):", option)
-                                if match:
-                                    option_number = match.group(1)
-                                    # Replace the option number with an empty string
-                                    question["options"][i] = re.sub(r"Option [A-Z0-9]:", "", option)
+                                question["options"][i] = clean_text(option, option_patterns)
+                                question["options"][i] = option.replace("(1)","")
+                                question["options"][i] = option.replace("(2)","")
+                                question["options"][i] = option.replace("(3)","")
+                                question["options"][i] = option.replace("(4)","")
+                                
+                                print(question["options"][i])
+                            
+                            with open("log.txt", "a") as log_file:
+                                current_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30))).strftime("%Y-%m-%d %H:%M:%S")
+                                log_file.write(f"{current_time}: After Clearing Text Response: {data_res}\n")
+                            
                             if isinstance(question, dict):
                                 res = {
-                                    "quizId" : quizId,
-                                    "quizGuid" : quizGuid,
-                                    "api_token" : "45b22444-3023-42a0-9eb4-ac94c22b15c2",
-                                    "result" : {
-                                        "questions":[]
+                                    "quizId": quizId,
+                                    "quizGuid": quizGuid,
+                                    "api_token": "45b22444-3023-42a0-9eb4-ac94c22b15c2",
+                                    "result": {
+                                        "questions": []
                                     }
                                 }
                                 res["result"]["questions"].append(question)
-                                # print(res)
                                 send_question = requests.post(api_to_send_questions, json=res)
                                 if send_question.status_code == 200:
                                     print("Question sent successfully!")
-                                # send response on api 
                                 result["questions"].append(question)
-                    else : 
+                    else:
+                        question_patterns = [r"Question \d+:", r"Question:"]
+                        answer_patterns = [r"ANSWER", r"ANS", r"ANSWEROPTION", r"Answer:"]
+                        solution_patterns = [r"Solution:"]
+                        
+                        data_res["question"] = clean_text(data_res["question"], question_patterns)
+                        data_res["answer"] = clean_text(data_res["answer"], answer_patterns)
+                        data_res["solution"] = clean_text(data_res["solution"], solution_patterns)
+                        option_patterns = [r"Option [A-Z]:", r"^\(\d+\)|^\([A-Z]\)", r"\([a-z]\):"]
                         for i, option in enumerate(data_res["options"]):
-                            # Find the option number using regex
-                            match = re.search(r"Option ([A-Z0-9]):", option)
-                            if match:
-                                option_number = match.group(1)
-                                # Replace the option number with an empty string
-                                data_res["options"][i] = re.sub(r"Option [A-Z0-9]:", "", option)
+                            data_res["options"][i] = clean_text(option, option_patterns)
+                            print(data_res["options"][i])
+                        
+                        with open("log.txt", "a") as log_file:
+                            current_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30))).strftime("%Y-%m-%d %H:%M:%S")
+                            log_file.write(f"{current_time}: After Clearing Text Response: {data_res}\n")
+                        
                         res = {
-                            "quizId" : quizId,
-                            "quizGuid" : quizGuid,
-                            "api_token" : "45b22444-3023-42a0-9eb4-ac94c22b15c2",
-                            "result" :{
-                                "questions":[]
+                            "quizId": quizId,
+                            "quizGuid": quizGuid,
+                            "api_token": "45b22444-3023-42a0-9eb4-ac94c22b15c2",
+                            "result": {
+                                "questions": []
                             }
                         }
                         res["result"]["questions"].append(data_res)
                         # print(res)
-
                         send_question = requests.post(api_to_send_questions, json=res)
                         # print(send_question.json())
                         if send_question.status_code == 200:
@@ -252,9 +280,7 @@ def format_questions(filepath,content,quizId,quizGuid):
                         result["questions"].append(data_res)
                 except Exception as e :
                     print(str(e))
-                
                 # result["questions"].append(data_res)
-                
                 # print(result)
                 # return result 
             except Exception as e:
