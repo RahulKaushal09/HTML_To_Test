@@ -1,0 +1,73 @@
+{
+    "fileguid": "bdf82644-8a26-4e44-af16-8bd15d669e40",
+    "unique_questions": [
+        {
+            "id": 1655325,
+            "statement": "How do plants make their own food? A: By ordering food online B: By going to the grocery store C: By preparing it themselves using sunlight, water, and carbon dioxide D: By asking animals for food"
+        },
+        {
+            "id": 1655326,
+            "statement": "Plants prepare food through a process called __________. A: Respiration B: Photosynthesis C: Digestion D: Circulation"
+        },
+        {
+            "id": 1655327,
+            "statement": "State whether the following statement is True or False\n\nPlants are the only organisms that can prepare food for themselves.\n A: False\n B: True\n"
+        },
+        {
+            "id": 1655328,
+            "statement": "What part of a plant is responsible for carrying out photosynthesis? A: The roots B: The leaves C: The stem D: The flowers"
+        },
+        {
+            "id": 1655329,
+            "statement": "The bodies of living organisms are made of tiny units called _____.\n A: Cells\n B: Bricks\n C: Stones\n D: Wood\n"
+        },
+        {
+            "id": 1655330,
+            "statement": "State whether the following statement is True or False:\n\nPlants with deep red, violet, or brown leaves can also carry out photosynthesis.\n A: True\n B: False\n"
+        },
+        {
+            "id": 1655331,
+            "statement": "Why are algae green in color? A: Because they like the color green B: They turn green in the sunlight C: Algae contain chlorophyll, which makes them green D: They absorb green light from the environment"
+        },
+        {
+            "id": 1655332,
+            "statement": "Algae are green in color because they contain ________. A: Water B: Sunlight C: Chlorophyll D: Air"
+        },
+        {
+            "id": 1655334,
+            "statement": "State whether the following statement is True or False\n\nAlgae are purple in color.\n A: True\n B: False\n"
+        },
+        {
+            "id": 1655336,
+            "statement": "What type of plants can trap insects and digest them? A: Flowering plants B: Vegetable plants C: Insectivorous plants D: Fruit-bearing plants"
+        },
+        {
+            "id": 1655337,
+            "statement": "Plants make their food through the process of __________. A: Digestion B: Respiration C: Photosynthesis D: Circulation"
+        },
+        {
+            "id": 1655338,
+            "statement": "State whether the following statement is True or False\n\nThe pitcher plant feeds on insects because it lacks chlorophyll.\n A: True\n B: False\n"
+        },
+        {
+            "id": 1655340,
+            "statement": "What do farmers add to the soil to make it rich in nutrients for plants to grow well? A: Water B: Sand C: Fertilisers D: Stones"
+        },
+        {
+            "id": 1655342,
+            "statement": " Fungi obtain nutrients from dead and decaying matter through a process known as ________ nutrition. A:  Parasitic B:  Photosynthetic C:  Saprotrophic D:  Herbivorous"
+        },
+        {
+            "id": 1655343,
+            "statement": "State whether the following statement is True or False:\n\nFungi cause diseases in plants and animals.\n A: True\n B: False\n"
+        }
+    ],
+    "similar_question_ids": [
+        {
+            "question_id1": 1655326,
+            "question_id2": 1655337,
+            "similarity_percentage": 96.24856114387512
+        }
+    ],
+    "api_token": "45b22444-3023-42a0-9eb4-ac94c22b15c2"
+}

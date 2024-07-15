@@ -1,3 +1,4 @@
+import json
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -15,6 +16,7 @@ from gpt_test_creation import get_result
 import uuid
 
 from PIL import Image
+import json
 
 
 def get_image(mathjax, uuid_image_path):
@@ -29,7 +31,7 @@ def get_image(mathjax, uuid_image_path):
         <title>MathJax Image Automation</title>
         <style>
             body, html {{
-                margin: 10px;
+                margin: 5px;
                 padding: 5px;
                 overflow: hidden;
                 height: 100%;
@@ -40,7 +42,7 @@ def get_image(mathjax, uuid_image_path):
             }}
             #math-content {{
                 
-                padding-left:10px;
+                padding: 2px;
                 text-align: center;
                 transform-origin: center center;
             }}
@@ -60,7 +62,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
             window.onload = function() {{
                 
                 document.getElementById('math-content').style.height =
-                    document.querySelector('.MathJax').getBoundingClientRect().height+10 + 'px';
+                    document.querySelector('.MathJax').getBoundingClientRect().height+15 + 'px';
             }};
         </script>
     </html>
@@ -162,12 +164,7 @@ def get_table_image(table_container, uuid_image_path):
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js" integrity="sha256-4 
         </script>
-        <script>
-        window.onload = function() {{
-                    document.getElementById('math-content').style.height =
-                        document.querySelector('.MathJax').getBoundingClientRect().height+15 + 'px';
-                }};
-            </script>
+        
     </html>
     '''
     # print("******************************")
@@ -213,7 +210,7 @@ def get_table_image(table_container, uuid_image_path):
 
 
 image_folder_path = "/var/www/html/images"
-Public_IP = "http://52.139.218.113/images"
+Public_IP = "https://fc.edurev.in/images"
 
 def find_top_most_parent_span(element):
     current = element
@@ -265,7 +262,7 @@ def replace_mathjax_with_images(html_content):
         element.extract()
     attribute = ""
     # Adjust this selector based on your HTML structure
-    
+    data_ = {"content":[]}
     math_elements = soup.find_all("mjx-container")
     if (len(math_elements) == 0) :
         math_elements = soup.find_all('span',class_='math-tex')
@@ -299,6 +296,21 @@ def replace_mathjax_with_images(html_content):
             image_url =f"{Public_IP}/{uuid_str}.png"
             # print(soup)
             new_img_tag = soup.new_tag("img", src=image_url)
+            # Create a dictionary to store the element and image URL
+            if os.path.exists('data.json'):
+                with open('elements_to_img.json', 'r') as file:
+                    data_ = json.load(file)
+                    print(data_['content'])
+            
+            replacement = {
+                "element": str(elements),
+                "image_url": image_url
+            }
+            # Append the replacement dictionary to the list of replacements
+            data_["content"].append(replacement)
+            
+            with open('elements_to_img.json', 'w') as file:
+                json.dump(data_, file)
             elements.replace_with(new_img_tag)
         
     # print(soup.prettify())

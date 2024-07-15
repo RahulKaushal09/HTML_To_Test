@@ -12,7 +12,7 @@ import numpy as np
 import cv2
 from map_question import map_questions
 # OAuth 2.0 Setup
-PUBLIC_IP = "http://52.139.218.113/images"
+PUBLIC_IP = "https://fc.edurev.in/images"
 location_of_images = "/var/www/html/images/"
 local_dir = "/home/er-ubuntu-1/webScrapping/removeWaterMark"  # Local directory to save images
 
