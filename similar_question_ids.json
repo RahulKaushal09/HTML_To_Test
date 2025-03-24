@@ -1,7 +1,367 @@
 [
     {
-        "question_id1": 1655326,
-        "question_id2": 1655337,
-        "similarity_percentage": 96.24856114387512
+        "question_id1": 2009464,
+        "question_id2": 2022564,
+        "similarity_percentage": 90.621417760849
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009502,
+        "similarity_percentage": 99.91490244865417
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009508,
+        "similarity_percentage": 99.90044832229614
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009457,
+        "similarity_percentage": 99.91494417190552
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2051014,
+        "similarity_percentage": 90.00548124313354
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009563,
+        "similarity_percentage": 99.9171257019043
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009465,
+        "similarity_percentage": 99.95763897895813
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009555,
+        "similarity_percentage": 99.91046786308289
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009571,
+        "similarity_percentage": 99.95847940444946
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009526,
+        "similarity_percentage": 99.95578527450562
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.94475245475769
+    },
+    {
+        "question_id1": 2009464,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.3161678314209
+    },
+    {
+        "question_id1": 2009481,
+        "question_id2": 2051001,
+        "similarity_percentage": 90.65812230110168
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009502,
+        "similarity_percentage": 90.60174226760864
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009508,
+        "similarity_percentage": 90.50631523132324
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009457,
+        "similarity_percentage": 90.40128588676453
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2051014,
+        "similarity_percentage": 97.58118987083435
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009563,
+        "similarity_percentage": 90.40350317955017
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009465,
+        "similarity_percentage": 90.51730036735535
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009555,
+        "similarity_percentage": 90.32500982284546
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009571,
+        "similarity_percentage": 90.57743549346924
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009526,
+        "similarity_percentage": 90.58630466461182
+    },
+    {
+        "question_id1": 2022564,
+        "question_id2": 2009492,
+        "similarity_percentage": 90.48824310302734
+    },
+    {
+        "question_id1": 2009474,
+        "question_id2": 2009600,
+        "similarity_percentage": 99.76245164871216
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009508,
+        "similarity_percentage": 99.85206127166748
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009457,
+        "similarity_percentage": 99.91961717605591
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2051014,
+        "similarity_percentage": 90.28554558753967
+    },
+    {
+        "question_id1": 2009508,
+        "question_id2": 2009457,
+        "similarity_percentage": 99.8414695262909
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009563,
+        "similarity_percentage": 99.85543489456177
+    },
+    {
+        "question_id1": 2009508,
+        "question_id2": 2009563,
+        "similarity_percentage": 99.97801184654236
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009465,
+        "similarity_percentage": 99.86842274665833
+    },
+    {
+        "question_id1": 2009508,
+        "question_id2": 2009465,
+        "similarity_percentage": 99.94237422943115
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009555,
+        "similarity_percentage": 99.8907208442688
+    },
+    {
+        "question_id1": 2009508,
+        "question_id2": 2009555,
+        "similarity_percentage": 99.85527992248535
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009571,
+        "similarity_percentage": 99.94654655456543
+    },
+    {
+        "question_id1": 2009508,
+        "question_id2": 2009571,
+        "similarity_percentage": 99.93009567260742
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009526,
+        "similarity_percentage": 99.92423057556152
+    },
+    {
+        "question_id1": 2009457,
+        "question_id2": 2051014,
+        "similarity_percentage": 90.1085376739502
+    },
+    {
+        "question_id1": 2009508,
+        "question_id2": 2009526,
+        "similarity_percentage": 99.9367356300354
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.90507364273071
+    },
+    {
+        "question_id1": 2009502,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.34517741203308
+    },
+    {
+        "question_id1": 2009508,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.97490048408508
+    },
+    {
+        "question_id1": 2009457,
+        "question_id2": 2009563,
+        "similarity_percentage": 99.88168478012085
+    },
+    {
+        "question_id1": 2009508,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.26648736000061
+    },
+    {
+        "question_id1": 2009457,
+        "question_id2": 2009465,
+        "similarity_percentage": 99.86510872840881
+    },
+    {
+        "question_id1": 2009457,
+        "question_id2": 2009555,
+        "similarity_percentage": 99.9299943447113
+    },
+    {
+        "question_id1": 2009457,
+        "question_id2": 2009571,
+        "similarity_percentage": 99.9222993850708
+    },
+    {
+        "question_id1": 2009457,
+        "question_id2": 2009526,
+        "similarity_percentage": 99.90653395652771
+    },
+    {
+        "question_id1": 2009457,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.90663528442383
+    },
+    {
+        "question_id1": 2009457,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.28468465805054
+    },
+    {
+        "question_id1": 2009563,
+        "question_id2": 2009465,
+        "similarity_percentage": 99.957937002182
+    },
+    {
+        "question_id1": 2009563,
+        "question_id2": 2009555,
+        "similarity_percentage": 99.89210367202759
+    },
+    {
+        "question_id1": 2009563,
+        "question_id2": 2009571,
+        "similarity_percentage": 99.9418556690216
+    },
+    {
+        "question_id1": 2009563,
+        "question_id2": 2009526,
+        "similarity_percentage": 99.9488353729248
+    },
+    {
+        "question_id1": 2009563,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.98483657836914
+    },
+    {
+        "question_id1": 2009563,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.2351770401001
+    },
+    {
+        "question_id1": 2022563,
+        "question_id2": 2009475,
+        "similarity_percentage": 99.99999403953552
+    },
+    {
+        "question_id1": 2009465,
+        "question_id2": 2009555,
+        "similarity_percentage": 99.8920738697052
+    },
+    {
+        "question_id1": 2009465,
+        "question_id2": 2009571,
+        "similarity_percentage": 99.95407462120056
+    },
+    {
+        "question_id1": 2009465,
+        "question_id2": 2009526,
+        "similarity_percentage": 99.9539315700531
+    },
+    {
+        "question_id1": 2009465,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.96152520179749
+    },
+    {
+        "question_id1": 2009465,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.23901557922363
+    },
+    {
+        "question_id1": 2009555,
+        "question_id2": 2009571,
+        "similarity_percentage": 99.93061423301697
+    },
+    {
+        "question_id1": 2009555,
+        "question_id2": 2009526,
+        "similarity_percentage": 99.90798234939575
+    },
+    {
+        "question_id1": 2009555,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.90401864051819
+    },
+    {
+        "question_id1": 2009555,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.26837086677551
+    },
+    {
+        "question_id1": 2009571,
+        "question_id2": 2009526,
+        "similarity_percentage": 99.96734857559204
+    },
+    {
+        "question_id1": 2009571,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.9599814414978
+    },
+    {
+        "question_id1": 2009571,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.33766722679138
+    },
+    {
+        "question_id1": 2009585,
+        "question_id2": 2009484,
+        "similarity_percentage": 97.47008085250854
+    },
+    {
+        "question_id1": 2009526,
+        "question_id2": 2009492,
+        "similarity_percentage": 99.96837973594666
+    },
+    {
+        "question_id1": 2009526,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.2897629737854
+    },
+    {
+        "question_id1": 2009492,
+        "question_id2": 2009525,
+        "similarity_percentage": 99.28619861602783
     }
 ]

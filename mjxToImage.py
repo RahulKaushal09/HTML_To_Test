@@ -71,7 +71,8 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
     # print(html_text)
     # print("******************************")
     encoded_html = urllib.parse.quote(html_text)
-    service = Service(ChromeDriverManager().install())
+    # service = Service(ChromeDriverManager().install())
+    service = Service('/root/.wdm/drivers/chromedriver/linux64/114.0.5735.90/chromedriver-linux64/chromedriver')
     options = webdriver.ChromeOptions()
     user_agent_string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
     options.add_argument(f"user-agent={user_agent_string}")
@@ -171,7 +172,8 @@ def get_table_image(table_container, uuid_image_path):
     # print(html_text)
     # print("******************************")
     encoded_html = urllib.parse.quote(html_text)
-    service = Service(ChromeDriverManager().install())
+    # service = Service(ChromeDriverManager().install())
+    service = Service('/root/.wdm/drivers/chromedriver/linux64/114.0.5735.90/chromedriver-linux64/chromedriver')
     options = webdriver.ChromeOptions()
     
     user_agent_string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
@@ -369,7 +371,7 @@ def extract_qa(content):
             result+="**********"+content
     # print(result)
     return result
-# file_path_ = "/home/er-ubuntu-1/pdfToTest/JEE_MATHPIX_pro.html"
+# file_path_ = "/root/pdfToTest/JEE_MATHPIX_pro.html"
 # def preprocess_html_code(file_path,role,prompt):
 def preprocess_html_code(file_path,quizId,quizGuid):
     """Reads HTML content from a file."""
@@ -386,8 +388,8 @@ def preprocess_html_code(file_path,quizId,quizGuid):
     return get_result(file_path,quizId,quizGuid)
     # return get_result(file_path,role,prompt)
 # read_html(file_path)
-# with open("/home/er-ubuntu-1/pdfToTest/JEE_result.html", 'r', encoding='utf-8') as file:
+# with open("/root/pdfToTest/JEE_result.html", 'r', encoding='utf-8') as file:
 #         result_html_content = file.read()
 # result_html_content = extract_qa(result_html_content)
-# with open("/home/er-ubuntu-1/pdfToTest/JEE_result_processed.html", "w") as file:
+# with open("/root/pdfToTest/JEE_result_processed.html", "w") as file:
 #     file.write(result_html_content)

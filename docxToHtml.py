@@ -14,7 +14,7 @@ from map_question import map_questions
 # OAuth 2.0 Setup
 PUBLIC_IP = "https://fc.edurev.in/images"
 location_of_images = "/var/www/html/images/"
-local_dir = "/home/er-ubuntu-1/webScrapping/removeWaterMark"  # Local directory to save images
+local_dir = "/root/webScrapping/removeWaterMark"  # Local directory to save images
 
 
 def remove_watermark(location_of_images, image_path):
@@ -88,7 +88,7 @@ def replace_image_references_in_html(html_path, image_urls):
 
 # Paths
 def docxToHtml(docx_path):
-    # docx_path = r'/home/er-ubuntu-1/pdfToTest/test.docx'
+    # docx_path = r'/root/pdfToTest/test.docx'
 
     # Extract images
     location_of_images = "/var/www/html/images/"
@@ -117,5 +117,5 @@ def docxToHtml(docx_path):
     # Replace image references in the HTML file with Google Drive URLs
     replace_image_references_in_html(output_html_path, image_urls)
     return map_questions(output_html_path)
-docx_path = r'/home/er-ubuntu-1/pdfToTest/JEE.docx'
+docx_path = r'/root/pdfToTest/JEE.docx'
 docxToHtml(docx_path)

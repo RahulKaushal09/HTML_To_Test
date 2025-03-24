@@ -79,7 +79,8 @@ def get_image(latex_code):
         # print(html_text)
         # print("******************************")
         encoded_html = urllib.parse.quote(html_text)
-        service = Service(ChromeDriverManager().install())
+        # service = Service(ChromeDriverManager().install())
+        service = Service('/root/.wdm/drivers/chromedriver/linux64/114.0.5735.90/chromedriver-linux64/chromedriver')
         options = webdriver.ChromeOptions()
         
         user_agent_string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"

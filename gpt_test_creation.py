@@ -206,7 +206,7 @@ def format_questions(filepath,content,quizId,quizGuid):
                             print(f"JSON decoding error (2nd attempt): {e}")
                             continue
                     
-                    api_to_send_questions = "https://p1.edurev.in/Tools/PDF_TO_QuizQuestions_Automation"
+                    api_to_send_questions = "https://er.edurev.in/Tools/PDF_TO_QuizQuestions_Automation"
                     if 'questions' in data_res:
                         for question in data_res["questions"]:
                             question_patterns = [r"Question \d+:", r"Question:"]
