@@ -1,6 +1,6 @@
 .env
-.htmlToTest.log
-.data.json
-.response.json
-.similar_question_ids.json
-.result.json
+htmlToTest.log
+data.json
+response.json
+similar_question_ids.json
+result.json
